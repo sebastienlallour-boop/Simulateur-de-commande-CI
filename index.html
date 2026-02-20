@@ -1,2 +1,1158 @@
-<!doctype html>
-<html><body><h1>Ça marche ✅</h1></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande Caviste Indépendant - Les Éditions Spiritueuses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #1a237e;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo-text {
+            font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #1a1a2e;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .logo-subtitle {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #666;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        h1 {
+            color: #1a237e;
+            font-size: 1.8em;
+            text-align: right;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1em;
+            text-align: right;
+        }
+
+        .section {
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #1a237e;
+        }
+
+        .section h3 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .remise-cascade {
+            background: #e8eaf6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #1a237e;
+        }
+
+        .remise-niveau {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .remise-niveau.pro {
+            border-left: 4px solid #ff9800;
+        }
+
+        .remise-niveau.caviste {
+            border-left: 4px solid #4caf50;
+        }
+
+        .remise-label {
+            font-weight: 600;
+            color: #1a237e;
+            min-width: 200px;
+        }
+
+        .remise-valeur {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .fleche-cascade {
+            text-align: center;
+            font-size: 1.5em;
+            color: #1a237e;
+            margin: 5px 0;
+        }
+
+        .seuils-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .seuil-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .seuil-item.active {
+            background: #1a237e;
+            color: white;
+            border-color: #1a237e;
+            transform: scale(1.05);
+        }
+
+        .seuil-pct {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .seuil-range {
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        .info-badges {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .badge-qty {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .badge-palier {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.85em;
+        }
+
+        th {
+            background: #1a237e;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+
+        .qty-btn.minus {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .qty-btn.plus {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .qty-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            padding: 5px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .montant {
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        .montant-ttc {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .recap-section {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .recap-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recap-qty-total {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .recap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .recap-item {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .recap-item.total {
+            background: rgba(255,255,255,0.25);
+            border: 2px solid rgba(255,255,255,0.3);
+            grid-column: 1 / -1;
+        }
+
+        .recap-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .recap-value {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        .taxes-detail {
+            font-size: 0.8em;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .taxes-detail div {
+            margin: 3px 0;
+        }
+
+        .expedition-info {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .expedition-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .expedition-badge.free {
+            background: #4caf50;
+        }
+
+        .expedition-badge.paid {
+            background: #ff9800;
+        }
+
+        .params-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .param-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .param-group label {
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .param-group input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        .param-group input:focus {
+            outline: none;
+            border-color: #1a237e;
+        }
+
+        .expedition-bareme {
+            background: #fff3e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .expedition-bareme h4 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+
+        .bareme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .bareme-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #ffe0b2;
+        }
+
+        .bareme-item.active {
+            background: #ff9800;
+            color: white;
+            border-color: #ff9800;
+        }
+
+        .bareme-range {
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+
+        .bareme-price {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #1a237e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0d1642;
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .cat-alcool { background: #e3f2fd; color: #1565c0; }
+        .cat-rhum-dom { background: #ffcc80; color: #ef6c00; }
+        .cat-abv { background: #f3e5f5; color: #7b1fa2; }
+
+        .abv-note {
+            font-size: 0.75em;
+            color: #7b1fa2;
+            font-style: italic;
+        }
+
+        #exportModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: auto;
+        }
+
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow: auto;
+            margin: 15px 0;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 1200px) {
+            table {
+                font-size: 0.75em;
+            }
+            th, td {
+                padding: 8px 4px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                align-items: center;
+                margin-bottom: 15px;
+            }
+            
+            h1, .subtitle {
+                text-align: center;
+            }
+            
+            .seuils-grid, .bareme-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .remise-niveau {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .remise-label {
+                min-width: auto;
+                margin-bottom: 5px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header avec logo texte uniquement -->
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo-text">LES ÉDITIONS<br>SPIRITUEUSES</div>
+                <div class="logo-subtitle">COLLECTIONS D'EXPÉRIENCES DE DÉGUSTATION</div>
+            </div>
+            <div>
+                <h1>Commande Caviste Indépendant</h1>
+                <p class="subtitle">Simulation de prise de commande</p>
+            </div>
+        </div>
+
+        <!-- Remise en cascade (en haut) -->
+        <div class="remise-cascade">
+            <h3 style="color: #1a237e; margin-bottom: 15px;">💰 Structure des remises en cascade</h3>
+            <div class="remise-niveau pro">
+                <span class="remise-label">1. Remise Pro (de base)</span>
+                <span class="remise-valeur" id="displayRemisePro">-15%</span>
+                <span style="margin-left: 15px; color: #666; font-size: 0.9em;">Appliquée à tous les cavistes</span>
+            </div>
+            <div class="fleche-cascade">⬇️</div>
+            <div class="remise-niveau caviste">
+                <span class="remise-label">2. Remise palier Caviste</span>
+                <span style="color: #666; font-size: 0.9em;">Selon quantité totale du panier</span>
+            </div>
+        </div>
+
+        <!-- Seuils des paliers (en haut) -->
+        <div class="section">
+            <h3>📊 Seuils des paliers de remise Caviste</h3>
+            <div class="seuils-grid" id="seuilsGrid"></div>
+        </div>
+
+        <!-- Badges info -->
+        <div class="info-badges">
+            <span class="badge badge-qty">Total panier: <strong id="totalQty">0</strong> coffrets</span>
+            <span class="badge badge-palier" id="palierBadge">Palier: -</span>
+        </div>
+
+        <!-- Tableau des produits avec colonnes de totaux -->
+        <table id="productsTable">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Libellé</th>
+                    <th>Cat. Fiscale</th>
+                    <th>% Vol</th>
+                    <th>Vol (L)</th>
+                    <th>Tarif base HT</th>
+                    <th>Prix unit.<br>remisé HT</th>
+                    <th>Qté</th>
+                    <th>Total Droits<br>+ Vignette</th>
+                    <th>Total HT Acquitté</th>
+                    <th>Total TTC</th>
+                </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+        </table>
+
+        <!-- Récapitulatif de la commande -->
+        <div class="recap-section">
+            <h2>📋 Récapitulatif de la commande</h2>
+            <div class="recap-qty-total">
+                🛒 Quantité totale commandée: <strong id="recapQtyTotal">0</strong> coffrets
+            </div>
+            <div class="recap-grid">
+                <div class="recap-item">
+                    <div class="recap-label">Sous-total HT</div>
+                    <div class="recap-value" id="recapSousTotalHT">0,00 €</div>
+                    <div class="taxes-detail">
+                        <div>Dont droits: <span id="recapDroits">0,00 €</span></div>
+                        <div>Dont vignette: <span id="recapVignette">0,00 €</span></div>
+                    </div>
+                </div>
+                <div class="recap-item">
+                    <div class="recap-label">Sous-total TTC (hors expédition)</div>
+                    <div class="recap-value" id="recapSousTotalTTC">0,00 €</div>
+                </div>
+                <div class="recap-item">
+                    <div class="recap-label">Expédition</div>
+                    <div class="recap-value" id="recapExpedition">0,00 €</div>
+                    <div class="expedition-info" id="expeditionDetail"></div>
+                </div>
+                <div class="recap-item total">
+                    <div class="recap-label">TOTAL TTC COMMANDE</div>
+                    <div class="recap-value" id="recapTotal">0,00 €</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barème frais d'expédition -->
+        <div class="expedition-bareme">
+            <h4>🚚 Barème des frais d'expédition</h4>
+            <div class="bareme-grid" id="baremeGrid"></div>
+        </div>
+
+        <!-- Paramètres de calcul (partie basse) -->
+        <div class="section">
+            <h3>⚙️ Paramètres de calcul</h3>
+            <div class="params-grid">
+                <div class="param-group">
+                    <label>Taux Droits Alcool (€/L)</label>
+                    <input type="number" id="tauxDroitsAlcool" value="19.3242" step="0.0001">
+                </div>
+                <div class="param-group">
+                    <label>Taux Vignette Alcool (€/L)</label>
+                    <input type="number" id="tauxVignetteAlcool" value="6.2047" step="0.0001">
+                </div>
+                <div class="param-group">
+                    <label>Taux Droits Rhum DOM (€/L)</label>
+                    <input type="number" id="tauxDroitsRhumDom" value="9.6675" step="0.0001">
+                </div>
+                <div class="param-group">
+                    <label>Taux Vignette Rhum DOM (€/L)</label>
+                    <input type="number" id="tauxVignetteRhumDom" value="6.2047" step="0.0001">
+                </div>
+                <div class="param-group">
+                    <label>Taux Droits ABV (€/L) <span class="abv-note">(hors %Vol)</span></label>
+                    <input type="number" id="tauxDroitsAbv" value="2.0954" step="0.0001">
+                </div>
+                <div class="param-group">
+                    <label>Taux Vignette ABV (€/L) <span class="abv-note">(hors %Vol)</span></label>
+                    <input type="number" id="tauxVignetteAbv" value="0.5239" step="0.0001">
+                </div>
+                <div class="param-group">
+                    <label>TVA (%)</label>
+                    <input type="number" id="tauxTVA" value="20" step="0.1">
+                </div>
+                <div class="param-group">
+                    <label>Remise fixe Pro/Caviste (%)</label>
+                    <input type="number" id="remiseFixe" value="15" step="0.1">
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="resetCart()">🗑️ Réinitialiser panier</button>
+            <button class="btn btn-primary" onclick="exportJSON()">📤 Exporter JSON</button>
+        </div>
+    </div>
+
+    <!-- Modal export -->
+    <div id="exportModal" onclick="if(event.target.id === 'exportModal') closeExport()">
+        <div class="modal-content">
+            <h3>Export JSON</h3>
+            <pre id="exportContent"></pre>
+            <button class="btn btn-primary" onclick="closeExport()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATION - Seuils des paliers
+        // ==========================================
+        const SEUILS_PALIERS = [
+            { min: 1, max: 11, remise: 0.10, label: "1-11", nom: "Palier 1" },
+            { min: 12, max: 18, remise: 0.12, label: "12-18", nom: "Palier 2" },
+            { min: 19, max: 24, remise: 0.15, label: "19-24", nom: "Palier 3" },
+            { min: 25, max: Infinity, remise: 0.20, label: "25+", nom: "Palier 4" }
+        ];
+
+        // ==========================================
+        // PRODUITS - Nomenclature complète
+        // ==========================================
+        const PRODUITS = [
+            {
+                code: "COFRH01",
+                libelle: "ROUTES DU RHUM",
+                categorieFiscale: "ALCOOL",
+                description: "Selection de Rhums du monde",
+                volumeL: 0.08,
+                alcoolPct: 40.5,
+                tarifBaseHT: 70.48
+            },
+            {
+                code: "COFSP01",
+                libelle: "TRESOR D'ALAMBIC",
+                categorieFiscale: "ALCOOL",
+                description: "Selection de spiritueux",
+                volumeL: 0.08,
+                alcoolPct: 46,
+                tarifBaseHT: 60.00
+            },
+            {
+                code: "COFSP02",
+                libelle: "SECRET DES CHAIS",
+                categorieFiscale: "ALCOOL",
+                description: "Selection de spiritueux vieillis",
+                volumeL: 0.08,
+                alcoolPct: 40,
+                tarifBaseHT: 70.00
+            },
+            {
+                code: "COFWH01",
+                libelle: "LES SINGLES MALT DE France",
+                categorieFiscale: "ALCOOL",
+                description: "Selection de whiskies français",
+                volumeL: 0.08,
+                alcoolPct: 45,
+                tarifBaseHT: 80.00
+            },
+            {
+                code: "COFRH02",
+                libelle: "LES RHUMS D'OUTRE MER",
+                categorieFiscale: "RHUM DOM",
+                description: "Selection de rhums agricoles",
+                volumeL: 0.08,
+                alcoolPct: 42,
+                tarifBaseHT: 75.00
+            },
+            {
+                code: "COFAP01",
+                libelle: "RITUELS DU SOIRS",
+                categorieFiscale: "ABV",
+                description: "Selection de Vins d'Apéritif",
+                volumeL: 0.08,
+                alcoolPct: 20,
+                tarifBaseHT: 55.00
+            },
+            {
+                code: "COFSP03",
+                libelle: "SOUFLE DE BRUME",
+                categorieFiscale: "ALCOOL",
+                description: "Selection TGV (Téquila/Gin/Vodka)",
+                volumeL: 0.08,
+                alcoolPct: 42,
+                tarifBaseHT: 65.00
+            },
+            {
+                code: "COFWH02",
+                libelle: "LARMES DE FEU",
+                categorieFiscale: "ALCOOL",
+                description: "Selection de whiskies",
+                volumeL: 0.08,
+                alcoolPct: 53,
+                tarifBaseHT: 85.00
+            }
+        ];
+
+        // État du panier
+        let panier = {};
+        PRODUITS.forEach(p => panier[p.code] = 0);
+
+        // ==========================================
+        // FONCTIONS DE CALCUL
+        // ==========================================
+
+        function getParametres() {
+            return {
+                tauxDroitsAlcool: parseFloat(document.getElementById('tauxDroitsAlcool').value) || 19.3242,
+                tauxVignetteAlcool: parseFloat(document.getElementById('tauxVignetteAlcool').value) || 6.2047,
+                tauxDroitsRhumDom: parseFloat(document.getElementById('tauxDroitsRhumDom').value) || 9.6675,
+                tauxVignetteRhumDom: parseFloat(document.getElementById('tauxVignetteRhumDom').value) || 6.2047,
+                tauxDroitsAbv: parseFloat(document.getElementById('tauxDroitsAbv').value) || 2.0954,
+                tauxVignetteAbv: parseFloat(document.getElementById('tauxVignetteAbv').value) || 0.5239,
+                tauxTVA: (parseFloat(document.getElementById('tauxTVA').value) || 20) / 100,
+                remiseFixe: (parseFloat(document.getElementById('remiseFixe').value) || 15) / 100
+            };
+        }
+
+        function getPalier(qteTotale) {
+            if (qteTotale === 0) return null;
+            for (let palier of SEUILS_PALIERS) {
+                if (qteTotale >= palier.min && qteTotale <= palier.max) {
+                    return palier;
+                }
+            }
+            return SEUILS_PALIERS[SEUILS_PALIERS.length - 1];
+        }
+
+        function calculerExpedition(qteTotale) {
+            if (qteTotale === 0) return 0;
+            if (qteTotale < 2) return 7.2;
+            if (qteTotale < 12) return 10;
+            if (qteTotale < 24) return 15;
+            return 0;
+        }
+
+        function calculerTaxes(produit, params) {
+            let tauxDroits, tauxVignette;
+            let formule = "";
+            
+            switch(produit.categorieFiscale) {
+                case "RHUM DOM":
+                    tauxDroits = params.tauxDroitsRhumDom;
+                    tauxVignette = params.tauxVignetteRhumDom;
+                    // Formule standard: taux * volumeL * (alcoolPct/100)
+                    var droits = tauxDroits * produit.volumeL * (produit.alcoolPct / 100);
+                    var vignette = tauxVignette * produit.volumeL * (produit.alcoolPct / 100);
+                    formule = "standard";
+                    break;
+                case "ABV":
+                    tauxDroits = params.tauxDroitsAbv;
+                    tauxVignette = params.tauxVignetteAbv;
+                    // Formule spéciale ABV: taux * volumeL (SANS %Vol)
+                    var droits = tauxDroits * produit.volumeL;
+                    var vignette = tauxVignette * produit.volumeL;
+                    formule = "abv";
+                    break;
+                case "ALCOOL":
+                default:
+                    tauxDroits = params.tauxDroitsAlcool;
+                    tauxVignette = params.tauxVignetteAlcool;
+                    // Formule standard: taux * volumeL * (alcoolPct/100)
+                    var droits = tauxDroits * produit.volumeL * (produit.alcoolPct / 100);
+                    var vignette = tauxVignette * produit.volumeL * (produit.alcoolPct / 100);
+                    formule = "standard";
+            }
+            
+            return { droits, vignette, formule };
+        }
+
+        function calculerLigne(produit, qte, palier, params) {
+            if (qte === 0) return null;
+
+            const remisePalier = palier ? palier.remise : 0;
+            const puHT = produit.tarifBaseHT * (1 - params.remiseFixe) * (1 - remisePalier);
+            
+            const montantHT = puHT * qte;
+            
+            const taxes = calculerTaxes(produit, params);
+            const totalDroits = taxes.droits * qte;
+            const totalVignette = taxes.vignette * qte;
+            const totalTaxes = totalDroits + totalVignette;
+            
+            const totalHTLigne = montantHT + totalDroits + totalVignette;
+            const totalTTCLigne = totalHTLigne * (1 + params.tauxTVA);
+
+            return {
+                puHT,
+                montantHT,
+                totalDroits,
+                totalVignette,
+                totalTaxes,
+                totalHTLigne,
+                totalTTCLigne,
+                formuleTaxes: taxes.formule
+            };
+        }
+
+        // ==========================================
+        // RENDU UI
+        // ==========================================
+
+        function getCategoryClass(cat) {
+            switch(cat) {
+                case 'RHUM DOM': return 'cat-rhum-dom';
+                case 'ABV': return 'cat-abv';
+                default: return 'cat-alcool';
+            }
+        }
+
+        function renderSeuils() {
+            const qteTotale = Object.values(panier).reduce((a, b) => a + b, 0);
+            const palierActuel = getPalier(qteTotale);
+            
+            const grid = document.getElementById('seuilsGrid');
+            grid.innerHTML = SEUILS_PALIERS.map((p) => `
+                <div class="seuil-item ${palierActuel && p.nom === palierActuel.nom ? 'active' : ''}">
+                    <div class="seuil-pct">-${(p.remise * 100).toFixed(0)}%</div>
+                    <div class="seuil-range">${p.label} coffrets</div>
+                    <div style="font-size: 0.75em; margin-top: 5px; opacity: 0.8;">${p.nom}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderBareme(qteTotale) {
+            const expedition = calculerExpedition(qteTotale);
+            const grid = document.getElementById('baremeGrid');
+            
+            const items = [
+                { min: 0, max: 1, price: 7.2, label: "1 coffret" },
+                { min: 2, max: 11, price: 10, label: "2-11 coffrets" },
+                { min: 12, max: 23, price: 15, label: "12-23 coffrets" },
+                { min: 24, max: Infinity, price: 0, label: "24+ coffrets", free: true }
+            ];
+
+            grid.innerHTML = items.map(item => {
+                const isActive = qteTotale >= item.min && qteTotale <= item.max && qteTotale > 0;
+                return `
+                    <div class="bareme-item ${isActive ? 'active' : ''}">
+                        <div class="bareme-range">${item.label}</div>
+                        <div class="bareme-price">${item.free ? 'GRATUIT' : item.price.toFixed(2) + ' €'}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderProducts() {
+            const tbody = document.getElementById('productsBody');
+            const params = getParametres();
+            const qteTotale = Object.values(panier).reduce((a, b) => a + b, 0);
+            const palier = getPalier(qteTotale);
+
+            // Mise à jour affichage remise pro
+            document.getElementById('displayRemisePro').textContent = `-${(params.remiseFixe * 100).toFixed(0)}%`;
+
+            tbody.innerHTML = PRODUITS.map(prod => {
+                const qte = panier[prod.code];
+                const calcul = qte > 0 ? calculerLigne(prod, qte, palier, params) : null;
+                
+                // Note spéciale pour ABV
+                const abvNote = prod.categorieFiscale === 'ABV' ? '<div class="abv-note">(hors %Vol)</div>' : '';
+                
+                return `
+                    <tr>
+                        <td><strong>${prod.code}</strong></td>
+                        <td style="text-align: left;">
+                            <div>${prod.libelle}</div>
+                            <div style="font-size: 0.8em; color: #666;">${prod.description}</div>
+                        </td>
+                        <td>
+                            <span class="category-badge ${getCategoryClass(prod.categorieFiscale)}">${prod.categorieFiscale}</span>
+                            ${abvNote}
+                        </td>
+                        <td>${prod.alcoolPct}%</td>
+                        <td>${prod.volumeL}</td>
+                        <td>${prod.tarifBaseHT.toFixed(2)} €</td>
+                        <td class="montant">${calcul ? calcul.puHT.toFixed(2) + ' €' : '-'}</td>
+                        <td>
+                            <div class="qty-control">
+                                <button class="qty-btn minus" onclick="updateQty('${prod.code}', -1)">−</button>
+                                <input type="number" class="qty-input" value="${qte}" min="0" 
+                                    onchange="setQty('${prod.code}', this.value)">
+                                <button class="qty-btn plus" onclick="updateQty('${prod.code}', 1)">+</button>
+                            </div>
+                        </td>
+                        <td class="montant">${calcul ? calcul.totalTaxes.toFixed(2) + ' €' : '-'}</td>
+                        <td class="montant">${calcul ? calcul.totalHTLigne.toFixed(2) + ' €' : '-'}</td>
+                        <td class="montant-ttc">${calcul ? calcul.totalTTCLigne.toFixed(2) + ' €' : '-'}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            updateRecap();
+        }
+
+        function updateRecap() {
+            const params = getParametres();
+            const qteTotale = Object.values(panier).reduce((a, b) => a + b, 0);
+            const palier = getPalier(qteTotale);
+
+            let sousTotalHT = 0;
+            let sousTotalTTC = 0;
+            let totalDroits = 0;
+            let totalVignette = 0;
+
+            PRODUITS.forEach(prod => {
+                const qte = panier[prod.code];
+                if (qte > 0) {
+                    const calcul = calculerLigne(prod, qte, palier, params);
+                    sousTotalHT += calcul.totalHTLigne;
+                    sousTotalTTC += calcul.totalTTCLigne;
+                    totalDroits += calcul.totalDroits;
+                    totalVignette += calcul.totalVignette;
+                }
+            });
+
+            const expedition = calculerExpedition(qteTotale);
+            const totalTTC = sousTotalTTC + expedition;
+
+            document.getElementById('totalQty').textContent = qteTotale;
+            document.getElementById('recapQtyTotal').textContent = qteTotale;
+            
+            const palierText = palier ? 
+                `${palier.nom}: <span style="background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 10px;">-${(palier.remise * 100).toFixed(0)}%</span> supplémentaire` : 
+                'Aucun article';
+            document.getElementById('palierBadge').innerHTML = palierText;
+            
+            document.getElementById('recapSousTotalHT').textContent = sousTotalHT.toFixed(2) + ' €';
+            document.getElementById('recapDroits').textContent = totalDroits.toFixed(2) + ' €';
+            document.getElementById('recapVignette').textContent = totalVignette.toFixed(2) + ' €';
+            document.getElementById('recapSousTotalTTC').textContent = sousTotalTTC.toFixed(2) + ' €';
+            document.getElementById('recapExpedition').textContent = expedition.toFixed(2) + ' €';
+            document.getElementById('recapTotal').textContent = totalTTC.toFixed(2) + ' €';
+
+            const expDetail = document.getElementById('expeditionDetail');
+            if (expedition === 0) {
+                if (qteTotale === 0) {
+                    expDetail.innerHTML = '<span class="expedition-badge paid">-</span> Aucun article';
+                } else {
+                    expDetail.innerHTML = '<span class="expedition-badge free">GRATUIT</span> À partir de 24 coffrets';
+                }
+            } else {
+                expDetail.innerHTML = `<span class="expedition-badge paid">${expedition.toFixed(2)} €</span> ${qteTotale} coffret${qteTotale > 1 ? 's' : ''}`;
+            }
+
+            renderSeuils();
+            renderBareme(qteTotale);
+        }
+
+        // ==========================================
+        // ACTIONS UTILISATEUR
+        // ==========================================
+
+        function updateQty(code, delta) {
+            const newQty = Math.max(0, (panier[code] || 0) + delta);
+            setQty(code, newQty);
+        }
+
+        function setQty(code, value) {
+            panier[code] = Math.max(0, parseInt(value) || 0);
+            renderProducts();
+        }
+
+        function resetCart() {
+            PRODUITS.forEach(p => panier[p.code] = 0);
+            renderProducts();
+        }
+
+        function exportJSON() {
+            const params = getParametres();
+            const qteTotale = Object.values(panier).reduce((a, b) => a + b, 0);
+            const palier = getPalier(qteTotale);
+            
+            let sousTotalHT = 0;
+            let sousTotalTTC = 0;
+            let totalDroits = 0;
+            let totalVignette = 0;
+            const lignes = [];
+
+            PRODUITS.forEach(prod => {
+                const qte = panier[prod.code];
+                if (qte > 0) {
+                    const calcul = calculerLigne(prod, qte, palier, params);
+                    lignes.push({
+                        code: prod.code,
+                        libelle: prod.libelle,
+                        categorieFiscale: prod.categorieFiscale,
+                        quantite: qte,
+                        prixUnitaireRemiseHT: calcul.puHT,
+                        montantHT: calcul.montantHT,
+                        droits: calcul.totalDroits,
+                        vignette: calcul.totalVignette,
+                        totalHT: calcul.totalHTLigne,
+                        totalTTC: calcul.totalTTCLigne,
+                        formuleTaxes: calcul.formuleTaxes
+                    });
+                    sousTotalHT += calcul.totalHTLigne;
+                    sousTotalTTC += calcul.totalTTCLigne;
+                    totalDroits += calcul.totalDroits;
+                    totalVignette += calcul.totalVignette;
+                }
+            });
+
+            const expedition = calculerExpedition(qteTotale);
+            
+            const exportData = {
+                date: new Date().toISOString(),
+                parametres: {
+                    tauxDroitsAlcool: params.tauxDroitsAlcool,
+                    tauxVignetteAlcool: params.tauxVignetteAlcool,
+                    tauxDroitsRhumDom: params.tauxDroitsRhumDom,
+                    tauxVignetteRhumDom: params.tauxVignetteRhumDom,
+                    tauxDroitsAbv: params.tauxDroitsAbv,
+                    tauxVignetteAbv: params.tauxVignetteAbv,
+                    tauxTVA: params.tauxTVA,
+                    remiseFixeCaviste: params.remiseFixe,
+                    palierApplique: palier
+                },
+                panier: lignes,
+                recapitulatif: {
+                    quantiteTotale: qteTotale,
+                    sousTotalHT: sousTotalHT,
+                    totalDroits: totalDroits,
+                    totalVignette: totalVignette,
+                    sousTotalTTC: sousTotalTTC,
+                    expedition: expedition,
+                    totalTTC: sousTotalTTC + expedition
+                }
+            };
+
+            document.getElementById('exportContent').textContent = JSON.stringify(exportData, null, 2);
+            document.getElementById('exportModal').style.display = 'flex';
+        }
+
+        function closeExport() {
+            document.getElementById('exportModal').style.display = 'none';
+        }
+
+        // ==========================================
+        // INITIALISATION
+        // ==========================================
+
+        ['tauxDroitsAlcool', 'tauxVignetteAlcool', 'tauxDroitsRhumDom', 'tauxVignetteRhumDom', 
+         'tauxDroitsAbv', 'tauxVignetteAbv', 'tauxTVA', 'remiseFixe'].forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                renderProducts();
+            });
+        });
+
+        renderProducts();
+        renderSeuils();
+        renderBareme(0);
+    </script>
+</body>
+</html>
